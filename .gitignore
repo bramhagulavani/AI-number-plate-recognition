@@ -1,0 +1,21 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+
+# PHP / Composer
+/vendor/
+/composer.lock
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Environment / secrets
+.env
+config/*.local.php
+
+# Cache / generated
+cache/
+tmp/
+public/uploads/

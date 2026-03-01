@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - ANPR System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Toastify CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --primary-gradient: linear-gradient(to right, #0078ff, #5b6af0);
+      --secondary-color: #6c757d;
+      --background-color: #f5f5f5;
+      --text-color: #333333;
+      --border-color: #dee2e6;
+      --hover-color: #0056b3;
+      --card-background: #ffffff;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    /* Dark Mode Variables */
+    [data-theme="dark"] {
+      --primary-color: #3b82f6;
+      --background-color: #1f2937;
+      --text-color: #f3f4f6;
+      --border-color: #374151;
+      --card-background: #111827;
+      --secondary-color: #9ca3af;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .settings-container {
+      width: 100%;
+      max-width: 550px;
+      background: var(--card-background);
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .settings-container:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .settings-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .settings-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .settings-header p {
+      color: var(--secondary-color);
+      font-size: 14px;
+    }
+
+    .setting-item {
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .setting-item:hover {
+      transform: translateX(5px);
+    }
+
+    .setting-item label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .setting-item label i {
+      color: var(--primary-color);
+    }
+
+    .setting-item input[type="password"],
+    .setting-item input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-background);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .setting-item input[type="password"]:focus,
+    .setting-item input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    /* Toggle Switch */
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--secondary-color);
+      transition: var(--transition);
+      border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: var(--transition);
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background: var(--primary-gradient);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(to right, #ef4444, #dc2626);
+      color: white;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-danger:hover {
+      box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: linear-gradient(to right, #10b981, #059669);
+      color: white;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-success:hover {
+      box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Spinner for buttons */
+    .btn-spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    button.loading {
+      pointer-events: none;
+    }
+
+    button.loading .btn-text {
+      visibility: hidden;
+    }
+
+    button.loading .btn-spinner {
+      display: block;
+      position: absolute;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Custom Toastify Styles */
+    .toastify {
+      padding: 16px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+    }
+
+    .toast-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .toast-message {
+      flex-grow: 1;
+    }
+
+    .toast-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-left: 5px solid #059669;
+    }
+
+    .toast-error {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-left: 5px solid #dc2626;
+    }
+
+    .toast-info {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-left: 5px solid #1d4ed8;
+    }
+
+    .toast-warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-left: 5px solid #d97706;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background-color: var(--card-background);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 24px;
+    }
+
+    .modal-icon.warning {
+      background-color: #fef3c7;
+      color: #d97706;
+    }
+
+    .modal-icon.danger {
+      background-color: #fee2e2;
+      color: #ef4444;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .modal-content {
+      margin-bottom: 25px;
+      color: var(--secondary-color);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn-cancel {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .btn-cancel:hover {
+      background-color: #5a6268;
+    }
+
+    .btn-confirm {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      background-color: #dc2626;
+    }
+
+    /* Back button */
+    .back-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .back-button:hover {
+      transform: translateX(-3px);
+      color: var(--hover-color);
+    }
+
+    @media (max-width: 768px) {
+      .settings-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Password Change Confirmation Modal -->
+  <div id="passwordModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-icon warning">
+          <i class="fas fa-key"></i>
+        </div>
+        <h3 class="modal-title">Confirm Password Change</h3>
+      </div>
+      <div class="modal-content">
+        Are you sure you want to change your password? You will need to use the new password for your next login.
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" onclick="closeModal('passwordModal')">Cancel</button>
+        <button type="button" class="btn btn-confirm" onclick="confirmPasswordChange()">
+          <span class="btn-text">Yes, Change</span>
+          <span class="btn-spinner"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Logs Confirmation Modal -->
+  <div id="logsModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-icon warning">
+          <i class="fas fa-download"></i>
+        </div>
+        <h3 class="modal-title">Download ANPR Logs</h3>
+      </div>
+      <div class="modal-content">
+        This will download all ANPR logs to your device. The file may contain sensitive information. Proceed?
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" onclick="closeModal('logsModal')">Cancel</button>
+        <button type="button" class="btn btn-confirm" onclick="confirmDownloadLogs()">
+          <span class="btn-text">Yes, Download</span>
+          <span class="btn-spinner"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-container">
+    <div class="settings-header">
+      <button class="back-button" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h2>Settings</h2>
+      <p>Manage your ANPR system preferences</p>
+    </div>
+
+    <!-- Change Password -->
+    <div class="setting-item">
+      <label for="newPassword">
+        <i class="fas fa-lock"></i> Change Password
+      </label>
+      <div style="display: flex; gap: 10px;">
+        <input type="password" id="newPassword" placeholder="Enter new password">
+        <button class="btn btn-primary" onclick="showModal('passwordModal')">
+          <i class="fas fa-key"></i>
+          <span class="btn-text">Update</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggle Dark Mode -->
+    <div class="setting-item">
+      <div class="toggle-wrapper">
+        <label class="toggle-label">
+          <i class="fas fa-moon"></i> Dark Mode
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle" onchange="toggleTheme()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="setting-item">
+      <div class="toggle-wrapper">
+        <label class="toggle-label">
+          <i class="fas fa-bell"></i> Enable Notifications
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="notifToggle" onchange="toggleNotification()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Download Logs -->
+    <div class="setting-item">
+      <button class="btn btn-success" onclick="showModal('logsModal')">
+        <i class="fas fa-download"></i>
+        <span class="btn-text">Download ANPR Logs</span>
+        <span class="btn-spinner"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toastify JS -->
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script>
+    // Check for saved theme preference or default to 'light'
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.setAttribute('data-theme', savedTheme);
+      document.getElementById('darkModeToggle').checked = savedTheme === 'dark';
+    });
+
+    // Show modal function
+    function showModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+
+    // Close modal function
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'info', icon = 'info-circle') {
+      Toastify({
+        text: `
+          <div class="toast-content">
+            <i class="fas fa-${icon} toast-icon"></i>
+            <span class="toast-message">${message}</span>
+          </div>
+        `,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        className: `toast-${type}`,
+        escapeMarkup: false,
+        close: true
+      }).showToast();
+    }
+
+    // Change password function
+    function confirmPasswordChange() {
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmBtn = document.querySelector('#passwordModal .btn-confirm');
+      
+      if (newPassword.length < 4) {
+        closeModal('passwordModal');
+        showToast("Password must be at least 4 characters.", "error", "exclamation-circle");
+        return;
+      }
+      
+      // Show loading state
+      confirmBtn.classList.add('loading');
+      
+      // Simulate API call
+      setTimeout(() => {
+        // Hide loading state
+        confirmBtn.classList.remove('loading');
+        closeModal('passwordModal');
+        
+        // Clear the input field
+        document.getElementById("newPassword").value = '';
+        
+        // Show success message
+        showToast("Password updated successfully!", "success", "check-circle");
+      }, 1500);
+    }
+
+    // Toggle theme function
+    function toggleTheme() {
+      const isDark = document.getElementById("darkModeToggle").checked;
+      const theme = isDark ? 'dark' : 'light';
+      
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      
+      showToast(`${isDark ? 'Dark' : 'Light'} mode activated`, "info", isDark ? "moon" : "sun");
+    }
+
+    // Toggle notification function
+    function toggleNotification() {
+      const isEnabled = document.getElementById("notifToggle").checked;
+      
+      // Simulate saving the preference
+      setTimeout(() => {
+        showToast(`Notifications ${isEnabled ? 'enabled' : 'disabled'}`, isEnabled ? "success" : "warning", isEnabled ? "bell" : "bell-slash");
+      }, 300);
+    }
+
+    // Download logs function
+    function confirmDownloadLogs() {
+      const confirmBtn = document.querySelector('#logsModal .btn-confirm');
+      
+      // Show loading state
+      confirmBtn.classList.add('loading');
+      
+      // Simulate download preparation
+      setTimeout(() => {
+        // Create and download the file
+        const data = "ANPR Logs\nPlate: MH12AB1234\nDate: 2024-12-01\nLocation: Gate A";
+        const blob = new Blob([data], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ANPR_Logs.txt";
+        
+        // Hide loading state
+        confirmBtn.classList.remove('loading');
+        closeModal('logsModal');
+        
+        // Trigger download
+        a.click();
+        
+        // Show success message
+        showToast("Logs downloaded successfully!", "success", "download");
+      }, 1500);
+    }
+
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        event.target.classList.remove('active');
+      }
+    });
+
+    // Close modals with Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+          modal.classList.remove('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
